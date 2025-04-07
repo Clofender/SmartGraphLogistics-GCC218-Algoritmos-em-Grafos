@@ -2,18 +2,20 @@
 #include <vector>
 #include <tuple>
 
-#include "FUNCTIONS.H"
+#include "functions.h"
 
 using namespace std;
    
 int main(){
     int entrada;
+    Grafo grafo;
+    
     do {
         cout << "==========================================" << endl;
         cout << "              MENU PRINCIPAL              " << endl;
         cout << "==========================================" << endl;
         cout << "1. Inserir modelo da cidade" << endl;
-        cout << "2. Inserir quantidade de ruas" << endl;
+        cout << "2. Retornar quantidade de vértices" << endl;
         cout << "3. Opcao 3" << endl;
         cout << "0. Sair" << endl;
         cout << "==========================================" << endl;
@@ -22,7 +24,7 @@ int main(){
 
         switch (entrada) {
             
-            case 1:
+            case 1: {
             int esquinas, n_rua_mao_unica, n_rua_via_dupla, r1, r2, ru1, ru2;
             vector<tuple<int, int>> rua_mao_unica;
             vector<tuple<int, int>> rua_via_dupla;
@@ -50,9 +52,18 @@ int main(){
             rua_mao_unica.push_back(make_tuple(ru1,ru2));
             }
 
-            Grafo grafo;
-            criarGrafo(esquinas,n_rua_mao_unica,n_rua_via_dupla, rua_via_dupla, rua_mao_unica);
-                break;           
+            grafo.vertices = esquinas;
+            grafo.arestas = n_rua_via_dupla;
+            grafo.arcos = n_rua_mao_unica;
+            grafo.matriz = criarGrafo(esquinas,n_rua_mao_unica,n_rua_via_dupla, rua_via_dupla, rua_mao_unica);
+            }
+                break; 
+                
+            case 2:
+            mostrarVertices(grafo);
+
+            break;
         }
+
     } while (entrada != 0);
 }

@@ -2,16 +2,11 @@
 #include <vector>
 #include <tuple>
 
-#include "FUNCTIONS.H"
+#include "functions.h"
 
 using namespace std;
 
-struct Grafo{
-    int vertices;
-    int arestas;
-    int arcos;
-    int** matriz;
-}
+
 
 int** criarGrafo(int v, int n_aresta_dir, int n_aresta_nao_dir,
 const vector<tuple<int, int>>& aresta_dir, const vector<tuple<int, int>>& aresta_nao_dir){
@@ -45,6 +40,6 @@ const vector<tuple<int, int>>& aresta_dir, const vector<tuple<int, int>>& aresta
     return matriz;
 }
 
-int getVertices(int** matriz){
-        for(int i = )
+int mostrarVertices(Grafo grafo){
+        return grafo.vertices;
 }
