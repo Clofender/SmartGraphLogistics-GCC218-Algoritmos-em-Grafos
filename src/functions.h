@@ -10,52 +10,11 @@ struct Grafo{
     int arestas;
     int arcos;
     int** matriz;
+    int verticesReq;
+    int arestasReq;
+    int arcosReq;
 };
 
-struct Cabecalho {
-    string name;
-    int optimalValue;
-    int numVehicles;
-    int capacity;
-    int depotNode;
-    int numNodes;
-    int numEdges;
-    int numArcs;
-    int numReqNodes;
-    int numReqEdges;
-    int numReqArcs;
-};
-
-struct RequiredNode {
-    string id;
-    int demand;
-    int sCost;
-};
-
-struct RequiredEdge {
-    string id;
-    int from;
-    int to;
-    int tCost;
-    int demand;
-    int sCost;
-};
-
-struct RequiredArc {
-    string id;
-    int from;
-    int to;
-    int tCost;
-    int demand;
-    int sCost;
-};
-
-struct Arc {
-    string id;
-    int from;
-    int to;
-    int tCost;
-};
 
 int** criarGrafo(
     int v,

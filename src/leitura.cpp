@@ -8,6 +8,51 @@
 #include "functions.h"
 
 using namespace std;
+struct Cabecalho {
+    string name;
+    int optimalValue;
+    int numVehicles;
+    int capacity;
+    int depotNode;
+    int numNodes;
+    int numEdges;
+    int numArcs;
+    int numReqNodes;
+    int numReqEdges;
+    int numReqArcs;
+};
+
+struct RequiredNode {
+    string id;
+    int demand;
+    int sCost;
+};
+
+struct RequiredEdge {
+    string id;
+    int from;
+    int to;
+    int tCost;
+    int demand;
+    int sCost;
+};
+
+struct RequiredArc {
+    string id;
+    int from;
+    int to;
+    int tCost;
+    int demand;
+    int sCost;
+};
+
+struct Arc {
+    string id;
+    int from;
+    int to;
+    int tCost;
+};
+
 
 string trim(const string &s) {
     auto start = s.begin();
@@ -17,7 +62,7 @@ string trim(const string &s) {
     return string(start, end+1);
 }
 
-int main(){
+int main2(){
     ifstream arquivo("../../dados/selected_instances/BHW1.dat");
     if (!arquivo.is_open()){
         cout << "Erro ao abrir o arquivo!" << endl;
@@ -25,6 +70,7 @@ int main(){
     }
     
     Cabecalho cabecalho;
+    Grafo grafo;
     vector<RequiredNode> reqNodes;
     vector<RequiredEdge> reqEdges;
     vector<RequiredArc> reqArcs;
@@ -64,17 +110,17 @@ int main(){
                 else if (campo.find("Depot Node") != string::npos)
                 cabecalho.depotNode = stoi(valor);
                 else if (campo.find("#Nodes") != string::npos)
-                cabecalho.numNodes = stoi(valor);
+                grafo.vertices = stoi(valor);
                 else if (campo.find("#Edges") != string::npos)
-                cabecalho.numEdges = stoi(valor);
+                grafo.vertices = stoi(valor);
                 else if (campo.find("#Arcs") != string::npos)
-                cabecalho.numArcs = stoi(valor);
+                grafo.arcos = stoi(valor);
                 else if (campo.find("#Required N") != string::npos)
-                cabecalho.numReqNodes = stoi(valor);
+                grafo.verticesReq = stoi(valor);
                 else if (campo.find("#Required E") != string::npos)
-                cabecalho.numReqEdges = stoi(valor);
+                grafo.arestasReq = stoi(valor);
                 else if (campo.find("#Required A") != string::npos)
-                cabecalho.numReqArcs = stoi(valor);
+                grafo.arcosReq = stoi(valor);
             }
             else {
                 istringstream iss(linha);
@@ -104,6 +150,7 @@ int main(){
 
     arquivo.close();
 
+    
     cout << "Instancia: " << cabecalho.name << endl;
     cout << "#Vertices: " << cabecalho.numNodes << ", #Arestas: " << cabecalho.numEdges << ", #Arcos: " << cabecalho.numArcs << endl;
     cout << "#Vertices requeridos: " << cabecalho.numReqNodes << endl;
