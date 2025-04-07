@@ -33,17 +33,17 @@ SmartGraphLogistics/
 
 1. Clone o repositório:
    ```bash
-   git clone https://github.com/usuario/SmartGraphLogistics.git
+   git clone https://github.com/Clofender/SmartGraphLogistics-GCC218-Algoritmos-em-Grafos.git
    ```
 
 2. Acesse o diretório do projeto:
    ```bash
-   cd SmartGraphLogistics
+   cd SmartGraphLogistics-GCC218-Algoritmos-em-Grafos
    ```
 
-3. Execute o programa (ajuste conforme linguagem usada, ex: Python, C++, etc.):
+3. Execute o programa
    ```bash
-   python src/main.py
+   src/main.cpp
    ```
 
 ## Licença
