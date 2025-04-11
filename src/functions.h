@@ -78,7 +78,6 @@ int mostrarArestasReq(Grafo grafo);
 int mostrarArcosReq(Grafo grafo);
 
 double densidadeGrafo(const Grafo& grafo);
-int grauMin(Grafo grafo);
 float caminhoMedio(Grafo grafo);
 int diametro(Grafo grafo);
 pair<int, int> calculaGrau(const Grafo& grafo, 

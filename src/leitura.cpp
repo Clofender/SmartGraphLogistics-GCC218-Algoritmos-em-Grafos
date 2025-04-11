@@ -106,11 +106,6 @@ DadosGrafo leituraBat(){
 
     arquivo.close();
 
-    cout << "Instancia: " << cabecalho.name << endl;
-    cout << "#Vertices: " << cabecalho.numNodes << ", #Arestas: " << cabecalho.numEdges << ", #Arcos: " << cabecalho.numArcs << endl;
-    cout << "#Vertices requeridos: " << cabecalho.numReqNodes << endl;
-    cout << "#Arestas requeridas: " << cabecalho.numReqEdges << endl;
-    cout << "#Arcos requeridos: " << cabecalho.numReqArcs << endl;
 
     return {grafo, reqNodes, reqEdges, reqArcs, arcs};;
 }

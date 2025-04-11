@@ -1,0 +1,28 @@
+Instancia: BHW1
+#Vertices: 6421320, #Arestas: 2001166510, #Arcos: 512
+#Vertices requeridos: 2001166510
+#Arestas requeridas: 0
+#Arcos requeridos: 0
+Quantidade de vértices: 12
+Quantidade de arestas: 11
+Quantidade de arcos: 22
+Quantidade de vertices requisitados: 7
+Quantidade de arestas requisitadas: 11
+Quantidade de arcos requisitados: 11
+Densidade do grafo: 0.333333
+Caminho médio: 16.7121
+Diâmetro: 30
+Grau mínimo: 4
+Grau máximo: 10
+Intermediação do vértice 1: 18
+Intermediação do vértice 2: 22
+Intermediação do vértice 3: 6
+Intermediação do vértice 4: 0
+Intermediação do vértice 5: 14
+Intermediação do vértice 6: 40
+Intermediação do vértice 7: 24
+Intermediação do vértice 8: 18
+Intermediação do vértice 9: 14
+Intermediação do vértice 10: 6
+Intermediação do vértice 11: 0
+Intermediação do vértice 12: 24
