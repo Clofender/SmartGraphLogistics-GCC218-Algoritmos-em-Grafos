@@ -88,7 +88,13 @@ int main(){
             cout<<grau2.second;
             
             break;
+
             }
+            case 13:
+
+            intermed(dados.grafo);
+                
+            break;
         }
 
     } while (entrada != 0);

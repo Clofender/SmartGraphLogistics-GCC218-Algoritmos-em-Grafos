@@ -160,3 +160,22 @@ pair<int, int> calculaGrau(const Grafo& grafo,
     return {minGrau, maxGrau};
 }
 
+void intermed(Grafo grafo) {
+    FloydWarshall(grafo);
+    
+
+    for (int v = 1; v <= grafo.vertices; v++) {
+        int count = 0;
+        for (int i = 1; i <= grafo.vertices; i++) {
+            for (int j = 1; j <= grafo.vertices; j++) {
+                if (i != j && i != v && j != v) {
+                    if (grafo.matriz[i][v] + grafo.matriz[v][j] == grafo.matriz[i][j]) {
+                        count++;
+                    }
+                }
+            }
+        }
+        cout << "Intermediação do vértice " << v << ": " << count << endl;
+    }
+}
+

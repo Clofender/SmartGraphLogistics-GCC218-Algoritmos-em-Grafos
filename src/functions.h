@@ -86,5 +86,6 @@ pair<int, int> calculaGrau(const Grafo& grafo,
     const vector<RequiredArc>& reqArcs, 
     const vector<Arc>& arcs); 
 DadosGrafo leituraBat();
+void intermed(Grafo grafo);
 
 #endif
