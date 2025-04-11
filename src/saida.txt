@@ -1,28 +1,89 @@
-Instancia: BHW1
-#Vertices: 6421320, #Arestas: 2001166510, #Arcos: 512
-#Vertices requeridos: 2001166510
-#Arestas requeridas: 0
-#Arcos requeridos: 0
-Quantidade de vértices: 12
-Quantidade de arestas: 11
-Quantidade de arcos: 22
-Quantidade de vertices requisitados: 7
-Quantidade de arestas requisitadas: 11
-Quantidade de arcos requisitados: 11
-Densidade do grafo: 0.333333
-Caminho médio: 16.7121
-Diâmetro: 30
-Grau mínimo: 4
-Grau máximo: 10
-Intermediação do vértice 1: 18
-Intermediação do vértice 2: 22
-Intermediação do vértice 3: 6
-Intermediação do vértice 4: 0
-Intermediação do vértice 5: 14
-Intermediação do vértice 6: 40
-Intermediação do vértice 7: 24
-Intermediação do vértice 8: 18
-Intermediação do vértice 9: 14
-Intermediação do vértice 10: 6
-Intermediação do vértice 11: 0
-Intermediação do vértice 12: 24
+Quantidade de vértices: 77
+Quantidade de arestas: 0
+Quantidade de arcos: 196
+Quantidade de vertices requisitados: 40
+Quantidade de arestas requisitadas: 0
+Quantidade de arcos requisitados: 102
+Densidade do grafo: 0.0334928
+Caminho médio: 181.936
+Diâmetro: 446
+Componentes conectados: 1
+Grau mínimo: 2
+Grau máximo: 9
+Intermediação do vértice 1: 0
+Intermediação do vértice 2: 298
+Intermediação do vértice 3: 0
+Intermediação do vértice 4: 594
+Intermediação do vértice 5: 362
+Intermediação do vértice 6: 0
+Intermediação do vértice 7: 328
+Intermediação do vértice 8: 402
+Intermediação do vértice 9: 524
+Intermediação do vértice 10: 642
+Intermediação do vértice 11: 1212
+Intermediação do vértice 12: 800
+Intermediação do vértice 13: 80
+Intermediação do vértice 14: 32
+Intermediação do vértice 15: 270
+Intermediação do vértice 16: 126
+Intermediação do vértice 17: 0
+Intermediação do vértice 18: 934
+Intermediação do vértice 19: 1064
+Intermediação do vértice 20: 650
+Intermediação do vértice 21: 1426
+Intermediação do vértice 22: 1316
+Intermediação do vértice 23: 606
+Intermediação do vértice 24: 572
+Intermediação do vértice 25: 466
+Intermediação do vértice 26: 346
+Intermediação do vértice 27: 0
+Intermediação do vértice 28: 30
+Intermediação do vértice 29: 0
+Intermediação do vértice 30: 0
+Intermediação do vértice 31: 562
+Intermediação do vértice 32: 474
+Intermediação do vértice 33: 194
+Intermediação do vértice 34: 0
+Intermediação do vértice 35: 202
+Intermediação do vértice 36: 0
+Intermediação do vértice 37: 262
+Intermediação do vértice 38: 0
+Intermediação do vértice 39: 376
+Intermediação do vértice 40: 454
+Intermediação do vértice 41: 816
+Intermediação do vértice 42: 1142
+Intermediação do vértice 43: 718
+Intermediação do vértice 44: 1524
+Intermediação do vértice 45: 0
+Intermediação do vértice 46: 1380
+Intermediação do vértice 47: 1780
+Intermediação do vértice 48: 322
+Intermediação do vértice 49: 1718
+Intermediação do vértice 50: 868
+Intermediação do vértice 51: 1052
+Intermediação do vértice 52: 330
+Intermediação do vértice 53: 134
+Intermediação do vértice 54: 0
+Intermediação do vértice 55: 0
+Intermediação do vértice 56: 412
+Intermediação do vértice 57: 296
+Intermediação do vértice 58: 1300
+Intermediação do vértice 59: 1352
+Intermediação do vértice 60: 944
+Intermediação do vértice 61: 0
+Intermediação do vértice 62: 722
+Intermediação do vértice 63: 298
+Intermediação do vértice 64: 0
+Intermediação do vértice 65: 0
+Intermediação do vértice 66: 150
+Intermediação do vértice 67: 344
+Intermediação do vértice 68: 0
+Intermediação do vértice 69: 550
+Intermediação do vértice 70: 0
+Intermediação do vértice 71: 150
+Intermediação do vértice 72: 576
+Intermediação do vértice 73: 150
+Intermediação do vértice 74: 0
+Intermediação do vértice 75: 576
+Intermediação do vértice 76: 782
+Intermediação do vértice 77: 188

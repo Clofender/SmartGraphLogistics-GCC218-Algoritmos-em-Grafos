@@ -27,7 +27,7 @@ int main(){
     cout << "Densidade do grafo: " << densidadeGrafo(dados.grafo) << endl;
     cout << "Caminho médio: " << caminhoMedio(dados.grafo) << endl;
     cout << "Diâmetro: " << diametro(dados.grafo) << endl;
-
+    cout << "Componentes conectados: " << componentesConectados(dados.grafo) << endl;
     pair<int, int> grau = calculaGrau(dados.grafo, dados.reqEdges, dados.reqArcs, dados.arcs);
     cout << "Grau mínimo: " << grau.first << endl;
     cout << "Grau máximo: " << grau.second << endl;

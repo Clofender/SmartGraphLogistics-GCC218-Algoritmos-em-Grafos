@@ -169,3 +169,42 @@ void intermed(Grafo grafo) {
     }
 }
 
+
+void dfsComponentes(int u, const Grafo& grafo, vector<bool>& visitado) {
+    visitado[u] = true; 
+
+    for (int v = 1; v <= grafo.vertices; ++v) {
+       
+        if (grafo.matriz[v]) {
+           
+          
+            if ((grafo.matriz[u][v] < INF || grafo.matriz[v][u] < INF) && !visitado[v]) {
+                dfsComponentes(v, grafo, visitado); // Chama recursivamente para o vizinho
+            }
+        }
+    }
+}
+
+// Função principal para calcular o número de componentes conectados
+int componentesConectados(const Grafo& grafo) {
+    if (grafo.vertices <= 0 || !grafo.matriz) { // Verifica se o grafo é válido
+        return 0;
+    }
+
+    // Vetor para marcar os vértices visitados (índice 0 não usado)
+    vector<bool> visitado(grafo.vertices + 1, false);
+    int numComponentes = 0;
+
+    // Itera por todos os vértices
+    for (int i = 1; i <= grafo.vertices; ++i) {
+        // Se o vértice i ainda não foi visitado, inicia DFS a partir dele
+        if (!visitado[i]) {
+            dfsComponentes(i, grafo, visitado); // Explora todo o componente
+            numComponentes++; // Incrementa a contagem de componentes
+        }
+    }
+
+    return numComponentes; 
+}
+
+
