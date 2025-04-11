@@ -4,57 +4,13 @@
 #include <fstream>
 #include <sstream>
 #include <string>
-
+#include <algorithm>
 #include "functions.h"
 
 using namespace std;
-struct Cabecalho {
-    string name;
-    int optimalValue;
-    int numVehicles;
-    int capacity;
-    int depotNode;
-    int numNodes;
-    int numEdges;
-    int numArcs;
-    int numReqNodes;
-    int numReqEdges;
-    int numReqArcs;
-};
-
-struct RequiredNode {
-    string id;
-    int demand;
-    int sCost;
-};
-
-struct RequiredEdge {
-    string id;
-    int from;
-    int to;
-    int tCost;
-    int demand;
-    int sCost;
-};
-
-struct RequiredArc {
-    string id;
-    int from;
-    int to;
-    int tCost;
-    int demand;
-    int sCost;
-};
-
-struct Arc {
-    string id;
-    int from;
-    int to;
-    int tCost;
-};
 
 
-string trim(const string &s) {
+string parte(const string &s) {
     auto start = s.begin();
     while (start != s.end() && isspace(*start)) start++;
     auto end = s.end();
@@ -62,11 +18,10 @@ string trim(const string &s) {
     return string(start, end+1);
 }
 
-int main2(){
-    ifstream arquivo("../../dados/selected_instances/BHW1.dat");
+DadosGrafo leituraBat(){
+    ifstream arquivo("../dados/selected_instances/BHW1.dat");
     if (!arquivo.is_open()){
         cout << "Erro ao abrir o arquivo!" << endl;
-        return 1;
     }
     
     Cabecalho cabecalho;
@@ -80,7 +35,7 @@ int main2(){
     string secaoAtual = "";
 
     while (getline(arquivo, linha)) {
-        linha = trim(linha);
+        linha = parte(linha);
 
         if (!linha.empty()) {
             if (linha.find("ReN.") != string::npos ||
@@ -91,13 +46,13 @@ int main2(){
                 
                 secaoAtual = linha;
             }
-            else if (linha.find(":") != string::npos and secaoAtual.empty()) {
+            else if (linha.find(":") != string::npos && secaoAtual.empty()) {
                 istringstream iss(linha);
                 string campo;
                 getline(iss, campo, ':');
                 string valor;
                 getline(iss, valor);
-                valor = trim(valor);
+                valor = parte(valor);
 
                 if (campo.find("Name") != string::npos)
                 cabecalho.name = valor;
@@ -112,7 +67,7 @@ int main2(){
                 else if (campo.find("#Nodes") != string::npos)
                 grafo.vertices = stoi(valor);
                 else if (campo.find("#Edges") != string::npos)
-                grafo.vertices = stoi(valor);
+                grafo.arestas = stoi(valor);
                 else if (campo.find("#Arcs") != string::npos)
                 grafo.arcos = stoi(valor);
                 else if (campo.find("#Required N") != string::npos)
@@ -121,6 +76,7 @@ int main2(){
                 grafo.arestasReq = stoi(valor);
                 else if (campo.find("#Required A") != string::npos)
                 grafo.arcosReq = stoi(valor);
+                
             }
             else {
                 istringstream iss(linha);
@@ -150,12 +106,11 @@ int main2(){
 
     arquivo.close();
 
-    
     cout << "Instancia: " << cabecalho.name << endl;
     cout << "#Vertices: " << cabecalho.numNodes << ", #Arestas: " << cabecalho.numEdges << ", #Arcos: " << cabecalho.numArcs << endl;
     cout << "#Vertices requeridos: " << cabecalho.numReqNodes << endl;
     cout << "#Arestas requeridas: " << cabecalho.numReqEdges << endl;
     cout << "#Arcos requeridos: " << cabecalho.numReqArcs << endl;
 
-    return 0;
+    return {grafo, reqNodes, reqEdges, reqArcs, arcs};;
 }
