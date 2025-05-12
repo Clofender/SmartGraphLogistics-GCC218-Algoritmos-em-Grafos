@@ -15,9 +15,10 @@ int main(){
     cout.rdbuf(outFile.rdbuf());
 
     DadosGrafo dados = leituraBat();
-
     criarGrafo(dados.grafo, dados.reqEdges, dados.reqArcs, dados.arcs);
-
+    criarLista(dados.grafo,dados.edges,dados.reqEdges,dados.reqArcs,dados.arcs,dados.reqNodes,dados.caminhosObrigatorios);
+    PathScanning(dados.grafo, dados, dados.edges, dados.reqEdges, dados.reqArcs, dados.arcs, dados.reqNodes, dados.caminhosObrigatorios);
+    cout<<endl;
     mostrarVertices(dados.grafo);
     mostrarArestas(dados.grafo);
     mostrarArcos(dados.grafo);

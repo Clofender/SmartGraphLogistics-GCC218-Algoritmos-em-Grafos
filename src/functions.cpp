@@ -2,6 +2,7 @@
 #include <vector>
 #include <tuple>
 #include <algorithm>
+#include <queue>
 #include "functions.h"
 
 using namespace std;
@@ -23,7 +24,8 @@ int INF = 1000000000;
         }
 
         for (const auto& re : reqEdges) {
-        grafo.matriz[re.from][re.to] = re.tCost;
+        grafo.matriz[re.from][re.to
+        ] = re.tCost;
         grafo.matriz[re.to][re.from] = re.tCost; 
         }
 
@@ -37,6 +39,138 @@ int INF = 1000000000;
 
         return grafo.matriz;
         }
+        void criarLista(Grafo& grafo,  const vector<Edge>& edges,
+            const vector<RequiredEdge>& reqEdges, const vector<RequiredArc>& reqArcs, 
+            const vector<Arc>& arcs, const vector<RequiredNode>& reqNodes,
+            vector<Aresta>& caminhosObrigatorios) {
+                
+                for (const auto& e : edges) {
+                    grafo.lista[e.from].push_back({e.from,e.to,e.tCost,0,0,false});
+                    grafo.lista[e.to].push_back({e.to,e.from,e.tCost,0,0,false});
+                    }
+
+                for (const auto& re : reqEdges) {
+                    grafo.lista[re.from].push_back({re.from,re.to,re.tCost,re.demand,re.sCost,false});
+                    grafo.lista[re.to].push_back({re.to,re.from,re.tCost,re.demand,re.sCost,false});
+                    
+                    
+                    }
+                
+                for (const auto& a : arcs) {
+                        grafo.lista[a.from].push_back({a.from,a.to,a.tCost,0,0,false});
+                        caminhosObrigatorios.push_back({a.from,a.to,a.tCost,0,0,false});
+                    }
+
+                for (const auto& ra : reqArcs) {
+                    grafo.lista[ra.from].push_back({ra.from,ra.to,ra.tCost,ra.demand,ra.sCost,false});
+                    caminhosObrigatorios.push_back({ra.from,ra.to,ra.tCost,ra.demand,ra.sCost,false});
+                    }
+                
+                for (const auto& rn : reqNodes) {
+                        grafo.lista[rn.num].push_back({rn.num,rn.tCost,rn.demand,rn.sCost,false});
+                        caminhosObrigatorios.push_back({rn.num,rn.tCost,rn.demand,rn.sCost});
+                        }
+        }
+
+    void PathScanning(Grafo& grafo, DadosGrafo& dados, const vector<Edge>& edges,
+        const vector<RequiredEdge>& reqEdges, const vector<RequiredArc>& reqArcs, 
+        const vector<Arc>& arcs,const vector<RequiredNode>& reqNodes, 
+        vector<Aresta>& caminhosObrigatorios){
+        
+        int veiculos;
+        if(dados.cabecalho.numVehicles == -1){
+            veiculos = INF;
+        }
+        else{
+            veiculos = dados.cabecalho.numVehicles;
+        }
+        int inicio = dados.cabecalho.depotNode;
+
+        //dijkstra de todos os vertices
+
+        vector<vector<int>> dist(grafo.vertices + 1, vector<int>(grafo.vertices + 1, INF));
+
+        for(int itVertice = 1; itVertice<=grafo.vertices; itVertice++){
+        vector<bool> visitado(grafo.vertices+1,false);
+        priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>> > heap;
+        
+        dist[itVertice][itVertice] = 0;
+        heap.push({0,itVertice});
+
+        while(!heap.empty()){
+            pair<int,int> vertice = heap.top();
+            int u = vertice.second;
+            heap.pop();
+
+            if(visitado[u] == true){
+                continue;
+            }
+            visitado[u] = true;
+
+            for(auto i = grafo.lista[u].begin(); i!= grafo.lista[u].end();i++){
+                int v = i->to;
+                int peso = i->tCost;
+
+                if(dist[itVertice][u] + peso < dist[itVertice][v]){
+                    dist[itVertice][v] = dist[itVertice][u] + peso;
+                    heap.push({dist[itVertice][v],v});
+                }
+            }
+        }
+
+    }
+
+    // construindo a lista de candidatos
+    vector<vector<int>> listaCand(grafo.vertices + 1);
+        //lista temporária para armazenar os caminhos requiridos
+        for(int v = 1; v <= grafo.vertices; v++){
+            vector<pair<int,int>> temp;
+            temp.reserve(caminhosObrigatorios.size());
+            //vê qual ponta da aresta está mais próxima
+            for(int i = 0; i < (int)caminhosObrigatorios.size();i++){
+                const auto& r = caminhosObrigatorios[i];
+                int dist1 = dist[v][r.from];
+                int dist2 = dist[v][r.to];
+                int distmin = min(dist1,dist2);
+                temp.emplace_back(distmin,i);
+            }
+
+            sort(temp.begin(), temp.end(),[](auto &a, auto &b){ 
+                return a.first < b.first; 
+            });
+
+           listaCand[v].reserve(temp.size());
+           for (auto &p : temp) {
+                listaCand[v].push_back(p.second);
+            }
+        }
+
+    //agora, constrói a rota
+        int cap_atual = dados.cabecalho.capacity;
+        vector<int> rota;
+        rota.push_back(inicio);
+
+
+        for(auto vert : listaCand[inicio]){
+            auto& i = caminhosObrigatorios[vert];
+
+            if(i.demand > dados.cabecalho.capacity){
+                continue;
+            }
+             if(i.atendido == true){
+                continue;
+            }
+            else if(i.demand <= cap_atual){
+                rota.push_back(i.to);
+                cap_atual = cap_atual - i.demand;
+                i.atendido = true;
+            }
+            
+        }
+    for(auto i : rota){
+        cout<<i<<" ";
+    }
+}
 
 
 int mostrarVertices(Grafo grafo) {

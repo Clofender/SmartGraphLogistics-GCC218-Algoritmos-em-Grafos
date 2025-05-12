@@ -27,9 +27,11 @@ DadosGrafo leituraBat(){
     Cabecalho cabecalho;
     Grafo grafo;
     vector<RequiredNode> reqNodes;
+    vector<Edge> edges;
     vector<RequiredEdge> reqEdges;
     vector<RequiredArc> reqArcs;
     vector<Arc> arcs;
+    vector<Aresta> caminhosObrigatorios;
     
     string linha;
     string secaoAtual = "";
@@ -83,7 +85,13 @@ DadosGrafo leituraBat(){
                 if (secaoAtual.find("ReN.") != string::npos) {
                     RequiredNode rn;
                     iss >> rn.id >> rn.demand >> rn.sCost;
+                    rn.num = stoi(rn.id.substr(1));
                     reqNodes.push_back(rn);
+                }
+                else if (secaoAtual.find("EDGE") != string::npos) {
+                    Edge e;
+                    iss >> e.id >> e.from >> e.to >> e.tCost;
+                    edges.push_back(e);
                 }
                 else if (secaoAtual.find("ReE.") != string::npos) {
                     RequiredEdge re;
@@ -106,6 +114,6 @@ DadosGrafo leituraBat(){
 
     arquivo.close();
 
-
-    return {grafo, reqNodes, reqEdges, reqArcs, arcs};;
+    grafo.lista.resize(grafo.vertices + 1);
+    return {cabecalho, grafo, reqNodes, edges, reqEdges, reqArcs, arcs,caminhosObrigatorios};;
 }

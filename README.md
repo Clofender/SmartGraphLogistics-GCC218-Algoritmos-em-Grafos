@@ -38,14 +38,16 @@ SmartGraphLogistics/
 
 2. Acesse o diretório do projeto:
    ```bash
-   cd SmartGraphLogistics-GCC218-Algoritmos-em-Grafos
+   cd SmartGraphLogistics-GCC218-Algoritmos-em-Grafos/src
    ```
 
 3. Execute o programa
    ```bash
-   src/main.cpp
+   g++ functions.cpp functions.h main.cpp leitura.cpp
    ```
-
+4. Execute o arquivo app.py para converter a saída de texto para .ipynb
+   ```bash
+  python app.py
 ## Licença
 
 Este projeto está licenciado sob os termos da **MIT License**. Consulte o arquivo `LICENSE` para mais detalhes.

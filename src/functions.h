@@ -2,19 +2,37 @@
 #define FUNCTIONS_H
 
 #include <vector>
+#include <string> 
 #include <tuple>
 #include <algorithm>
 
 using namespace std;
-struct Grafo{
-    int vertices;
-    int arestas;
-    int arcos;
-    int custo;
-    int** matriz;
-    int verticesReq;
-    int arestasReq;
-    int arcosReq;
+
+struct Aresta{
+    int from;
+    int to;
+    int tCost;
+    int demand;
+    int sCost;
+    bool atendido = false;
+};
+struct Grafo {
+    int vertices = 0;
+    int arestas = 0;
+    int arcos = 0;
+    int custo = 0;
+    int** matriz = nullptr;
+    vector<vector<Aresta>> lista;
+    int verticesReq = 0;
+    int arestasReq = 0;
+    int arcosReq = 0;
+
+    Grafo() = default;
+ 
+    Grafo(int v) : vertices(v) {
+        lista = vector<vector<Aresta>>(v + 1);
+    }
+
 };
 struct Cabecalho {
     string name;
@@ -32,8 +50,18 @@ struct Cabecalho {
 
 struct RequiredNode {
     string id;
+    int num;
+    int tCost = 0;
     int demand;
     int sCost;
+};
+
+struct Edge {
+    string id;
+    int from;
+    int to;
+    int tCost;
+
 };
 
 struct RequiredEdge {
@@ -62,13 +90,20 @@ struct Arc {
 };
 
 struct DadosGrafo{
+    Cabecalho cabecalho;
     Grafo grafo;
     vector<RequiredNode> reqNodes;
+    vector<Edge> edges;
     vector<RequiredEdge> reqEdges;
     vector<RequiredArc> reqArcs;
     vector<Arc> arcs;
+    vector<Aresta> caminhosObrigatorios;
 };
 int** criarGrafo(Grafo& grafo, const vector<RequiredEdge>& reqEdges, const vector<RequiredArc>& reqArcs, const vector<Arc>& arcs);
+void criarLista(Grafo& grafo,  const vector<Edge>& edges,
+    const vector<RequiredEdge>& reqEdges, const vector<RequiredArc>& reqArcs, 
+    const vector<Arc>& arcs, const vector<RequiredNode>& reqNodes,
+    vector<Aresta>& caminhosObrigatorios);
 
 int mostrarVertices(Grafo grafo);
 int mostrarArestas(Grafo grafo);
@@ -88,4 +123,8 @@ DadosGrafo leituraBat();
 void intermed(Grafo grafo);
 int componentesConectados(const Grafo& grafo);
 
+void PathScanning(Grafo& grafo, DadosGrafo& dados,  const vector<Edge>& edges,
+    const vector<RequiredEdge>& reqEdges, const vector<RequiredArc>& reqArcs, 
+    const vector<Arc>& arcs,const vector<RequiredNode>& reqNodes, 
+    vector<Aresta>& caminhosObrigatorios);
 #endif
