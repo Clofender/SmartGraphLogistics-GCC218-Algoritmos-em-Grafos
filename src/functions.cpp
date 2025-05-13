@@ -52,13 +52,13 @@ int INF = 1000000000;
                 for (const auto& re : reqEdges) {
                     grafo.lista[re.from].push_back({re.from,re.to,re.tCost,re.demand,re.sCost,false});
                     grafo.lista[re.to].push_back({re.to,re.from,re.tCost,re.demand,re.sCost,false});
-                    
+                    caminhosObrigatorios.push_back({re.from,re.to,re.tCost,re.demand,re.sCost,false});
                     
                     }
                 
                 for (const auto& a : arcs) {
                         grafo.lista[a.from].push_back({a.from,a.to,a.tCost,0,0,false});
-                        caminhosObrigatorios.push_back({a.from,a.to,a.tCost,0,0,false});
+                       
                     }
 
                 for (const auto& ra : reqArcs) {
@@ -67,8 +67,8 @@ int INF = 1000000000;
                     }
                 
                 for (const auto& rn : reqNodes) {
-                        grafo.lista[rn.num].push_back({rn.num,rn.tCost,rn.demand,rn.sCost,false});
-                        caminhosObrigatorios.push_back({rn.num,rn.tCost,rn.demand,rn.sCost});
+                        grafo.lista[rn.num].push_back({rn.num,rn.num,0,rn.demand,rn.sCost,false});
+                        caminhosObrigatorios.push_back({rn.num,rn.num,0,rn.demand,rn.sCost,false});
                         }
         }
 
@@ -120,6 +120,7 @@ int INF = 1000000000;
 
     }
 
+
     // construindo a lista de candidatos
     vector<vector<int>> listaCand(grafo.vertices + 1);
         //lista temporária para armazenar os caminhos requiridos
@@ -146,32 +147,73 @@ int INF = 1000000000;
         }
 
     //agora, constrói a rota
+        //verifica se tem alguma aresta nao atendida
+        vector<vector<int>> rotas;
+        int custo_total = 0;
+        bool atendidos = true;
+        while(atendidos){
+        atendidos = false;
+
+        for(auto& i : caminhosObrigatorios){
+            if(i.atendido == false){
+                atendidos = true;
+                break;
+            }
+        }
+        if(atendidos == false){
+            break;
+        }
+
         int cap_atual = dados.cabecalho.capacity;
         vector<int> rota;
-        rota.push_back(inicio);
-
-
-        for(auto vert : listaCand[inicio]){
-            auto& i = caminhosObrigatorios[vert];
-
-            if(i.demand > dados.cabecalho.capacity){
-                continue;
+        int ponto_partida = inicio;
+        rota.push_back(ponto_partida);
+        
+        //verifica as arestas candidatas podem ser atendidas
+        while(true){
+            int p = -1;
+            for(int v : listaCand[ponto_partida]){
+                auto& i = caminhosObrigatorios[v];
+                if(i.demand <= cap_atual && i.atendido == false){
+                    p = v;
+                    break;
+                }
             }
-             if(i.atendido == true){
-                continue;
-            }
-            else if(i.demand <= cap_atual){
-                rota.push_back(i.to);
-                cap_atual = cap_atual - i.demand;
-                i.atendido = true;
-            }
-            
+        //se nao, volta ao inicio
+        if(p == -1){
+            rota.push_back(inicio);
+            custo_total = custo_total + dist[ponto_partida][inicio];
+            break;
         }
-    for(auto i : rota){
-        cout<<i<<" ";
-    }
-}
 
+        auto &edge = caminhosObrigatorios[p];
+        int custo_sec = 0;
+        int u,w;
+        edge.atendido = true;
+
+        if(dist[ponto_partida][edge.from] <= dist[ponto_partida][edge.to]){
+            u = edge.from;
+            w = edge.to;
+            custo_sec = dist[ponto_partida][edge.from];                      
+        }
+        else{
+            u = edge.to;
+            w = edge.from;
+            custo_sec = dist[ponto_partida][edge.to];        
+        }
+        custo_total = edge.sCost + custo_sec + custo_total ;
+        rota.push_back(u);
+        rota.push_back(w);
+        ponto_partida = w;
+        cap_atual = cap_atual - edge.demand;  
+      }
+
+      rotas.push_back(rota);
+    }
+    cout<<"rotas: "<<rotas.size()<<endl;
+      cout<<"o custo total eh "<<custo_total;
+
+}
 
 int mostrarVertices(Grafo grafo) {
     cout << "Quantidade de vértices: " << grafo.vertices << endl;

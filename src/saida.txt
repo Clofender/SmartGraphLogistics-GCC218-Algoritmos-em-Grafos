@@ -1,4 +1,5 @@
-1 1 12 10 7 4 2 1 1 1 1 12 9 7 5 9 3 8 
+rotas: 6
+o custo total eh 446
 Quantidade de vértices: 12
 Quantidade de arestas: 11
 Quantidade de arcos: 22
