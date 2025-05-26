@@ -3,11 +3,13 @@
 #include <tuple>
 #include <algorithm>
 #include <queue>
+#include <x86intrin.h>
 #include "functions.h"
 
 using namespace std;
 
-int INF = 1000000000;
+
+const int INF = 1000000000;
 
     int** criarGrafo(Grafo& grafo, const vector<RequiredEdge>& reqEdges, 
             const vector<RequiredArc>& reqArcs, const vector<Arc>& arcs) {
@@ -52,8 +54,7 @@ int INF = 1000000000;
                 for (const auto& re : reqEdges) {
                     grafo.lista[re.from].push_back({re.from,re.to,re.tCost,re.demand,re.sCost,false});
                     grafo.lista[re.to].push_back({re.to,re.from,re.tCost,re.demand,re.sCost,false});
-                    caminhosObrigatorios.push_back({re.from,re.to,re.tCost,re.demand,re.sCost,false});
-                    
+                    caminhosObrigatorios.push_back({re.from,re.to,re.tCost,re.demand,re.sCost,false});                 
                     }
                 
                 for (const auto& a : arcs) {
@@ -72,11 +73,17 @@ int INF = 1000000000;
                         }
         }
 
+
+
+
     void PathScanning(Grafo& grafo, DadosGrafo& dados, const vector<Edge>& edges,
         const vector<RequiredEdge>& reqEdges, const vector<RequiredArc>& reqArcs, 
         const vector<Arc>& arcs,const vector<RequiredNode>& reqNodes, 
-        vector<Aresta>& caminhosObrigatorios){
+        vector<Aresta>& caminhosObrigatorios,unsigned long long com1, int i, string baseName){
+         unsigned long long com = __rdtsc();
+         
         
+        vector<int> rota_impressao;
         int veiculos;
         if(dados.cabecalho.numVehicles == -1){
             veiculos = INF;
@@ -120,7 +127,7 @@ int INF = 1000000000;
 
     }
 
-
+    
     // construindo a lista de candidatos
     vector<vector<int>> listaCand(grafo.vertices + 1);
         //lista temporária para armazenar os caminhos requiridos
@@ -130,8 +137,8 @@ int INF = 1000000000;
             //vê qual ponta da aresta está mais próxima
             for(int i = 0; i < (int)caminhosObrigatorios.size();i++){
                 const auto& r = caminhosObrigatorios[i];
-                int dist1 = dist[v][r.from];
-                int dist2 = dist[v][r.to];
+                int dist1 = dist[v][caminhosObrigatorios[i].from];
+                int dist2 = dist[v][caminhosObrigatorios[i].to];
                 int distmin = min(dist1,dist2);
                 temp.emplace_back(distmin,i);
             }
@@ -150,9 +157,12 @@ int INF = 1000000000;
         //verifica se tem alguma aresta nao atendida
         vector<vector<int>> rotas;
         int custo_total = 0;
+        int it1 = 1;
+
         bool atendidos = true;
         while(atendidos){
         atendidos = false;
+        int custo_indv = 0;
 
         for(auto& i : caminhosObrigatorios){
             if(i.atendido == false){
@@ -170,8 +180,10 @@ int INF = 1000000000;
         rota.push_back(ponto_partida);
         
         //verifica as arestas candidatas podem ser atendidas
+        int it2 = 1;
         while(true){
             int p = -1;
+            
             for(int v : listaCand[ponto_partida]){
                 auto& i = caminhosObrigatorios[v];
                 if(i.demand <= cap_atual && i.atendido == false){
@@ -183,6 +195,7 @@ int INF = 1000000000;
         if(p == -1){
             rota.push_back(inicio);
             custo_total = custo_total + dist[ponto_partida][inicio];
+            custo_indv = custo_indv + dist[ponto_partida][inicio];
             break;
         }
 
@@ -202,18 +215,80 @@ int INF = 1000000000;
             custo_sec = dist[ponto_partida][edge.to];        
         }
         custo_total = edge.sCost + custo_sec + custo_total ;
+        custo_indv = edge.sCost + custo_sec + custo_indv;
         rota.push_back(u);
         rota.push_back(w);
         ponto_partida = w;
         cap_atual = cap_atual - edge.demand;  
       }
-
+      rota_impressao.push_back(custo_indv);
       rotas.push_back(rota);
+
     }
-    cout<<"rotas: "<<rotas.size()<<endl;
-      cout<<"o custo total eh "<<custo_total;
+    unsigned long long end = __rdtsc();
+
+cout << custo_total << "\n";     
+cout << rotas.size()   << "\n"; 
+cout << (end - com1)    << "\n"; 
+cout << (end - com)    << "\n";  
+
+int deposito = 0; 
+int dia      = 1; 
+
+for (size_t r = 0; r < rotas.size(); ++r) {
+    const auto &rota      = rotas[r];        
+    int custo_rota        = rota_impressao[r];  
+    int num_services      = ( (int)rota.size() - 2 ) / 2;
+    int total_visitas     = num_services + 2;
+
+
+    int demanda_total = 0;
+    for (int idx = 1; idx + 1 < (int)rota.size(); idx += 2) {
+        int from = rota[idx];
+        int to   = rota[idx+1];
+     
+        for (size_t j = 0; j < caminhosObrigatorios.size(); ++j) {
+            const auto &e = caminhosObrigatorios[j];
+            if ((e.from == from && e.to == to) || (e.from == to && e.to == from)) {
+                demanda_total += e.demand;
+                break;
+            }
+        }
+    }
+
+    cout << deposito << " "
+         << dia      << " "
+         << (r + 1)  << " "
+         << demanda_total << " "
+         << custo_rota     << " "
+         << total_visitas;
+
+    // triplas
+    cout << " (D 0,1,1)";
+
+   
+    for (int idx = 1; idx + 1 < (int)rota.size(); idx += 2) {
+        int u = rota[idx];
+        int w = rota[idx+1];
+        // descobre qual elemento j de caminhosObrigatorios corresponde a (u,w):
+        for (size_t j = 0; j < caminhosObrigatorios.size(); ++j) {
+            const auto &e = caminhosObrigatorios[j];
+            if ((e.from == u && e.to == w) || (e.from == w && e.to == u)) {
+                int serv_id = (int)j + 1;  
+                cout << " (S " << serv_id << "," << u << "," << w << ")";
+                break;
+            }
+        }
+    }
+
+
+    cout << " (D 0,1,1)"<<endl;
+}
+
+     
 
 }
+
 
 int mostrarVertices(Grafo grafo) {
     cout << "Quantidade de vértices: " << grafo.vertices << endl;

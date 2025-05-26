@@ -18,8 +18,8 @@ string parte(const string &s) {
     return string(start, end+1);
 }
 
-DadosGrafo leituraBat(){
-    ifstream arquivo("../dados/selected_instances/BHW1.dat");
+DadosGrafo leituraBat(string inPath){
+    ifstream arquivo(inPath);
     if (!arquivo.is_open()){
         cout << "Erro ao abrir o arquivo!" << endl;
     }

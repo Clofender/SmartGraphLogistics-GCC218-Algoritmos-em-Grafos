@@ -99,6 +99,17 @@ struct DadosGrafo{
     vector<Arc> arcs;
     vector<Aresta> caminhosObrigatorios;
 };
+struct Rota {
+    Cabecalho cab;
+    int id;
+    int custo_demanda = 0;
+    int custo_total;
+    int qtd = 0;
+    vector<Aresta> arcos; 
+    int carga_atual = cab.capacity;
+    int ponto_partida = cab.depotNode;
+};
+
 int** criarGrafo(Grafo& grafo, const vector<RequiredEdge>& reqEdges, const vector<RequiredArc>& reqArcs, const vector<Arc>& arcs);
 void criarLista(Grafo& grafo,  const vector<Edge>& edges,
     const vector<RequiredEdge>& reqEdges, const vector<RequiredArc>& reqArcs, 
@@ -119,12 +130,12 @@ pair<int, int> calculaGrau(const Grafo& grafo,
     const vector<RequiredEdge>& reqEdges, 
     const vector<RequiredArc>& reqArcs, 
     const vector<Arc>& arcs); 
-DadosGrafo leituraBat();
+DadosGrafo leituraBat(string l);
 void intermed(Grafo grafo);
 int componentesConectados(const Grafo& grafo);
 
 void PathScanning(Grafo& grafo, DadosGrafo& dados,  const vector<Edge>& edges,
     const vector<RequiredEdge>& reqEdges, const vector<RequiredArc>& reqArcs, 
     const vector<Arc>& arcs,const vector<RequiredNode>& reqNodes, 
-    vector<Aresta>& caminhosObrigatorios);
+    vector<Aresta>& caminhosObrigatorios, unsigned long long com1, int i, string base);
 #endif
