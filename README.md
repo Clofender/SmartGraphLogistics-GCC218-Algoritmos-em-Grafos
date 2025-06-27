@@ -47,7 +47,8 @@ SmartGraphLogistics/
    ```
 4. Execute o arquivo app.py para converter a saída de texto para .ipynb
    ```bash
-  python app.py
+   python app.py
+   ```
 ## Licença
 
 Este projeto está licenciado sob os termos da **MIT License**. Consulte o arquivo `LICENSE` para mais detalhes.
