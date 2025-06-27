@@ -138,4 +138,6 @@ void PathScanning(Grafo& grafo, DadosGrafo& dados,  const vector<Edge>& edges,
     const vector<RequiredEdge>& reqEdges, const vector<RequiredArc>& reqArcs, 
     const vector<Arc>& arcs,const vector<RequiredNode>& reqNodes, 
     vector<Aresta>& caminhosObrigatorios, unsigned long long com1, int i, string base);
+
+void localSearch(vector<vector<int>>& rotas_nodes, DadosGrafo& dados, const vector<vector<int>>& dist, vector<Aresta>& caminhosObrigatorios);
 #endif

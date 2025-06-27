@@ -18,8 +18,8 @@ bool endsWith(const string& str, const string& suffix) {
 }
 
 int main() {
-    const string inputDir  = "../dados/selected_instances";
-    const string outputDir = "./solutions";
+    const string inputDir  = "../dados/selected_instances2";
+    const string outputDir = "./solutions2";
 
    
     struct stat st = {0};
