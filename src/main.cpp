@@ -18,8 +18,8 @@ bool endsWith(const string& str, const string& suffix) {
 }
 
 int main() {
-    const string inputDir  = "../dados/selected_instances2";
-    const string outputDir = "./solutions2";
+    const string inputDir  = "../dados/selected_instances";
+    const string outputDir = "./apaga";
 
    
     struct stat st = {0};
@@ -52,7 +52,7 @@ int main() {
         DadosGrafo dados = leituraBat(inPath);
 
         // Arquivo de saída: solutions/BHW1.sol
-        string outPath = outputDir + "/" + baseName + ".dat";
+        string outPath = outputDir + "/" + "sol-" + baseName + ".dat";
         ofstream outFile(outPath);
         if (!outFile.is_open()) {
             cerr << "Erro ao criar arquivo de saída: " << outPath << endl;
